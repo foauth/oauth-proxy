@@ -11,6 +11,7 @@
 {% block content %}
 			<div class="content">
 				<p>{% if current_user.is_authenticated() %}You can authorize your services here, and if the service supports it, you can also specify which permissions you&rsquo;d like to authorize. We&rsquo;ll automatically refresh your authorization whenever we can, but not all services support this, so you might have to manually re-authorize services that expire. {% endif %}If you use a service that&rsquo;s not on this list, feel free to <a href="https://github.com/gulopine/foauth.org/issues">request it</a>.</p>
+				{% if services %}
 				<div class="container services">
 					<div class="row">
 						<div class="span12">
@@ -106,4 +107,5 @@
 					</div>
 				</div>
 			</div>
+			{% endif %}
 {% endblock %}

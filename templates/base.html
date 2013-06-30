@@ -1,7 +1,7 @@
 {% macro nav(section) %}
     <ul class="nav">
-        <li{% if section == 'index' %} class="active"{% endif %}><a href="/">Home</a></li>
-        <li{% if section == 'services' %} class="active"{% endif %}><a href="/services/">Services</a></li>
+        <li{% if section == 'index' %} class="active"{% endif %}><a href="{{ url_for('index') }}">Home</a></li>
+        <li{% if section == 'services' %} class="active"{% endif %}><a href="{{ url_for('services') }}">Services</a></li>
         <li><a href="https://github.com/gulopine/foauth.org">Source</a></li>
     </ul>
     <ul class="nav pull-right">
