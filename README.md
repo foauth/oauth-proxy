@@ -16,8 +16,8 @@ Clone the repository.
 
 Create a Heroku app.
 
-    $ heroku create  # Create a Heroku app
-    $ git push heroku master  # Push to Heroku
+    $ heroku create
+    $ git push heroku master
 
 The remainder of the instructions are presented contextually within the app
 itself. Just open it in your browser and follow along. Refresh the page after
