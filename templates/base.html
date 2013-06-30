@@ -2,7 +2,7 @@
     <ul class="nav">
         <li{% if section == 'index' %} class="active"{% endif %}><a href="{{ url_for('index') }}">Home</a></li>
         <li{% if section == 'services' %} class="active"{% endif %}><a href="{{ url_for('services') }}">Services</a></li>
-        <li><a href="https://github.com/gulopine/foauth.org">Source</a></li>
+        <li><a href="https://github.com/foauth/oauth-proxy">Source</a></li>
     </ul>
     <ul class="nav pull-right">
         {% if current_user.is_authenticated() %}
