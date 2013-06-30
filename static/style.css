@@ -31,10 +31,6 @@ abbr {
 	border-bottom: 1px dotted #303030;
 }
 
-.nav img {
-	vertical-align: -2px;
-}
-
 .services a,
 .btn {
 	display: inline-block;
@@ -175,10 +171,6 @@ h3 .favicon {
 
 h2 .btn {
 	margin-top: .35em;
-}
-
-.modal {
-	outline: none;
 }
 
 .modal-header {
