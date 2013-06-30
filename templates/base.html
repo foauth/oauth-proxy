@@ -3,18 +3,10 @@
     <ul class="nav">
         <li{% if section == 'index' %} class="active"{% endif %}><a href="/">Home</a></li>
         <li{% if section == 'services' %} class="active"{% endif %}><a href="/services/">Services</a></li>
-        <li{% if section == 'about' %} class="active"{% endif %}><a href="/about/">About</a></li>
         <li><a href="https://github.com/gulopine/foauth.org">Source</a></li>
-        <li>
-            <a href="http://gum.co/rWgD">
-                <img src="https://getfavicon.appspot.com/http://gumroad.com/?defaulticon=https%3A//www.google.com/s2/favicons%3Fdomain%3Dgumroad.com" class="favicon">
-                Donate
-            </a>
-        </li>
     </ul>
     <div class="pull-right"><ul class="nav">
         {% if current_user.is_authenticated() %}
-        <li{% if section == 'password' %} class="active"{% endif %}><a href="{{ url_for('password') }}">Change password</a></li>
         <li><a href="{{ url_for('logout') }}">Log out</a></li>
         {% else %}
         <li{% if section == 'login' %} class="active"{% endif %}>
@@ -57,6 +49,5 @@
 		{% endwith %}
 			{% block content %}{% endblock %}
 		</div>
-		<p class="footer">Brought to you by <img class="g" src="{{ url_for('static', filename='g.png') }}" width="24" height="24"> <a href="https://github.com/gulopine">Marty Alchin</a> with sponsorship from <a href="http://heroku.com/">Heroku</a></p>
 	</body>
 </html>
