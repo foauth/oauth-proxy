@@ -112,7 +112,7 @@
 			{% endif %}
             <h2>Add a{% if services %}nother{% endif %} service</h2>
             <p>This is the rather tedious part. You&rsquo;ll need to follow several steps at the provider&rsquo;s site to obtain the necessary information.</p>
-            <p>First, find the service among the <a href="https://github.com/gulopine/foauth/blog/master/services">supported services</a> and make a note of its <code>alias</code> attribute, if there is one. If there&rsquo;s no <code>alias</code> attribute on the class, use the name of the class itself.</p>
+            <p>First, find the service among the <a href="https://github.com/foauth/oauth-proxy/tree/master/services">supported services</a> and make a note of its <code>alias</code> attribute, if there is one. If there&rsquo;s no <code>alias</code> attribute on the class, use the name of the class itself.</p>
             <ul>
                 <li>Register for or login to the service.</li>
                 <li>Register an OAuth application, using their provided form.</li>
@@ -126,5 +126,5 @@ $ <kbd>heroku config:add <var>ALIAS</var>_KEY=<var>0123456789abcdef</var> <var>A
 <samp>Setting config vars and restarting <var>random-string-1234</var>... done, v<var>2</var></samp>
 <samp><var>ALIAS</var>_KEY: <var>0123456789abcdef</var></samp>
 <samp><var>ALIAS</var>_SECRET: <var>0123456789abcdef</var></samp></pre>
-            <p>As long as the alias you used in the config variables matches a supported service, that&rsquo;s all you need to get started. If you&rsquo;d like to use a service not currently supported, please <a href="https://github.com/gulopine/foauth/issues">request it</a> or perhaps even <a href="https://github.com/gulopine/foauth/wiki/Adding_Providers">try writing it yourself</a>!</p>
+            <p>As long as the alias you used in the config variables matches a supported service, that&rsquo;s all you need to get started. If you&rsquo;d like to use a service not currently supported, please <a href="https://github.com/foauth/oauth-proxy/issues">request it</a> or perhaps even <a href="https://github.com/foauth/oauth-proxy/wiki/Adding_Providers">try writing it yourself</a>!</p>
 {% endblock %}
