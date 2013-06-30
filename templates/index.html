@@ -62,7 +62,7 @@ $ <kbd>heroku domains:add <var>oauth.example.com</var></kbd>
 			<h2>Access your data</h2>
 			<p>{% if current_user.is_authenticated() %}{% if key_count == 0 %}Once you&rsquo;ve <a href="{{ url_for('services') }}">authorized your services</a>, y{% else %}Y{% endif %}{% else %}Once you&rsquo;ve <a href="{{ url_for('login') }}">logged in</a> and authorized your services, y{% endif %}ou can access your data using using HTTP Basic authentication.</p>
 			<pre>
-$ <kbd>curl -u {% if current_user.is_authenticated() %}{{ current_user.email }}{% else %}<var>email@example.com</var>{% endif %} http{% if request.is_secure %}s{% endif %}://{{ request.host }}/<var>api.example.com/path</var></kbd>
+$ <kbd>curl --compressed -u {% if current_user.is_authenticated() %}{{ current_user.email }}{% else %}<var>email@example.com</var>{% endif %} http{% if request.is_secure %}s{% endif %}://{{ request.host }}/<var>api.example.com/path</var></kbd>
 <samp>Enter host password for user '{% if current_user.is_authenticated() %}{{ current_user.email }}{% else %}<var>email@example.com</var>{% endif %}': </samp>
 <samp><var>{ ... }</var></samp></pre>
 		</div>
