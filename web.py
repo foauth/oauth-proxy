@@ -1,6 +1,7 @@
 import datetime
 from functools import wraps
 import os
+import re
 import sys
 
 from flask import request, flash, redirect, render_template, abort, url_for, make_response
@@ -34,8 +35,12 @@ def forbidden(e):
 
 @config.app.route('/', methods=['GET'])
 def index():
-    return render_template('index.html', form=forms.Signup(),
-                           service_count=len(config.services))
+    return render_template('index.html',
+        env=os.environ,
+        custom_domain=re.match('[a-z]+-[a-z]+-[0-9]+\.herokuapp\.com', request.host),
+        service_count=len(config.services),
+        user_count=models.User.query.count() if os.environ.get('DATABASE_URL') else 0,
+    )
 
 
 @config.app.route('/login/', methods=['GET'])

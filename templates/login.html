@@ -29,5 +29,17 @@
             </form>
         </div>
     </div>
+    <div class="row">
+        <div class="offset2 span8">
+            <p>If you&rsquo;ve forgotten your password, you can reset it using the same <code>setuser</code> command you used to create your account in the first place.</p>
+            <pre>
+$ <kbd>heroku run setuser <var>email@example.com</var></kbd>
+<samp>Running `setuser <var>email@example.com</var>` attached to terminal... up, run.<var>1234</var></samp>
+<samp><var>email@example.com</var> already exists, setting password</samp>
+<samp>Password: </samp>
+<samp>Password (again): </samp>
+<samp>Updated password for <var>email@example.com</var></samp></pre>
+        </div>
+    </div>
 </div>
 {% endblock %}

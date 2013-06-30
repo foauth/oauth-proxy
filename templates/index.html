@@ -1,12 +1,104 @@
 {% extends 'base.html' %}
 
+{% set key_count = current_user.keys.count() if current_user.is_authenticated() else 0 %}
+{% set needs_database = not env['DATABASE_URL'] %}
+{% set needs_keys = not key_count %}
+{% set needs_secret = not env['SECRET_KEY'] %}
+{% set needs_services = not service_count %}
+{% set needs_user = not user_count %}
+
 {% block content %}
 <div class="content">
 	<div class="row">
 		<div class="span12">
 			<p>Welcome to your private OAuth proxy. The following steps will help get you up and running.</p>
 		</div>
+		{% if needs_secret %}
+		<div class="span12">
+			<h2>Establish a secret key</h2>
+			<p>You'll need to establish a secret key in order to secure your sessions. It can be anything you like, just make sure it&rsquo;s unique and difficult to guess. Make it as random as you&rsquo;d like.</p>
+			<pre>
+$ <kbd>heroku config:add SECRET_KEY=<var>0123456789abcdef</var></kbd>
+<samp>Setting config vars and restarting <var>random-string-1234</var>... done, v<var>13</var>
+SECRET_KEY: <var>0123456789abcdef</var></samp></pre>
 		</div>
+		{% endif %}
+		{% if needs_database %}
+		<div class="span12">
+			<h2>Provision a database</h2>
+			<p>You need to set up a database before you can do anything interesting. The free development database is sufficient for personal use.</p>
+			<pre>
+$ <kbd>heroku addons:add heroku-postgresql:dev</kbd>
+<samp>Adding heroku-postgresql:dev on <var>secure-spire-4184</var>... done, v<var>10</var> (free)
+Attached as HEROKU_POSTGRESQL_<var>RED</var>_URL
+Database has been created and is available
+ ! This database is empty. If upgrading, you can transfer
+ ! data from another database with pgbackups:restore.
+Use `heroku addons:docs heroku-postgresql:dev` to view documentation.</samp></pre>
+			<p>Heroku also requires that you promote this to your primary database.</p>
+			<pre>
+$ <kbd>heroku pg:promote <var>RED</var></kbd>
+<samp>Promoting HEROKU_POSTGRESQL_<var>RED</var>_URL to DATABASE_URL... done</samp></pre>
+		</div>
+		{% endif %}
+		{% if not custom_domain %}
+		<div class="span12">
+			<h2>Customize your domain <small>Optional</small></h2>
+			<p>If you plan to use a custom domain, you should configure it now, before you start registering any services.</p>
+			<pre>
+$ <kbd>heroku domains:add <var>oauth.example.com</var></kbd>
+<samp>Adding <var>oauth.example.com</var> to <var>random-string-1234</var>... done</samp></pre>
+			<p>Next, you&rsquo;ll need to <a href="https://devcenter.heroku.com/articles/custom-domains">configure your DNS settings</a> to point to Heroku. Lastly, you&rsquo;ll also need to <a href="https://devcenter.heroku.com/articles/ssl-endpoint">obtain and configure an SSL certificate</a> because the proxy service only operates over HTTPS.</p>
+		</div>
+		{% endif %}
+		{% if not needs_services and key_count < service_count %}
+		<div class="span12">
+			<h2>{% if current_user.is_authenticated() %}A{% else %}Login and a{% endif %}uthorize {% if key_count > 0 %}more{% else %}your{% endif %} services</h2>
+			<p>Select your desired permissions for <a href="{{ url_for('services') }}">each service</a> you&rsquo;d like to use, and authorize it by clicking through to their site. Once you come back here, you&rsquo;ll be all set.</p>
+		</div>
+		{% endif %}
+		{% if not needs_database and not needs_services and not needs_user and not needs_keys %}
+		<div class="span12">
+			<h2>Access your data</h2>
+			<p>{% if current_user.is_authenticated() %}{% if key_count == 0 %}Once you&rsquo;ve <a href="{{ url_for('services') }}">authorized your services</a>, y{% else %}Y{% endif %}{% else %}Once you&rsquo;ve <a href="{{ url_for('login') }}">logged in</a> and authorized your services, y{% endif %}ou can access your data using using HTTP Basic authentication.</p>
+			<pre>
+$ <kbd>curl -u {% if current_user.is_authenticated() %}{{ current_user.email }}{% else %}<var>email@example.com</var>{% endif %} http{% if request.is_secure %}s{% endif %}://{{ request.host }}/<var>{% if key_count > 0 %}{% with service = current_user.keys.first().service %}{{ service.api_test_domain }}{{ service.api_test_path }}{% endwith %}{% else %}api.twitter.com/1.1/statuses/user_timeline.json{% endif %}</var></kbd>
+<samp>Enter host password for user '{% if current_user.is_authenticated() %}{{ current_user.email }}{% else %}<var>email@example.com</var>{% endif %}': </samp>
+<samp>{ ... }</samp></pre>
+		</div>
+		{% endif %}
+		{% if not needs_database and needs_user %}
+		<div class="span12">
+			<h2>Create a{% if user_count > 0 %}nother{% endif %} user{% if user_count > 0 %} <small>Optional</small>{% endif %}</h2>
+			<pre>
+$ <kbd>heroku run setuser <var>email@example.com</var></kbd>
+<samp>Running `setuser <var>email@example.com</var>` attached to terminal... up, run.<var>1234</var></samp>
+<samp>Password: </samp>
+<samp>Password (again): </samp>
+<samp>Created account for <var>email@example.com</var></samp></pre>
+		</div>
+		{% endif %}
+		{% if not needs_database %}
+		<div class="span12">
+			<h2>Add a{% if service_count > 0 %}nother{% endif %} service{% if service_count > 0 %} <small>Optional</small>{% endif %}</h2>
+			<p>This is the rather tedious part. You&rsquo;ll need to follow several steps at the provider&rsquo;s site to obtain the necessary information.</p>
+			<p>First, find the service among the <a href="https://github.com/gulopine/foauth/blog/master/services">supported services</a> and make a note of its <code>alias</code> attribute, if there is one. If there&rsquo;s no <code>alias</code> attribute on the class, use the name of the class itself.</p>
+			<ul>
+				<li>Register for or login to the service.</li>
+				<li>Register an OAuth application, using their provided form.</li>
+				<li>When prompted for a callback URI, use <kbd>http{% if request.is_secure %}s{% endif %}://{{ request.host }}/services/<var>alias</var>/callback</kbd></li>
+				<li>Locate the application key (often called client ID for services using OAuth 2.0)</li>
+				<li>Locate the application secret</li>
+			</ul>
+			<p>Using the service&rsquo;s alias and the key and secret you got from the provider, configure Heroku with the <code><var>ALIAS</var>_KEY</code> and <code><var>ALIAS</var>_SECRET</code> variables.</p>
+			<pre>
+$ <kbd>heroku config:add <var>ALIAS</var>_KEY=<var>0123456789abcdef</var> <var>ALIAS</var>_SECRET=<var>0123456789abcdef</var></kbd>
+<samp>Setting config vars and restarting <var>random-string-1234</var>... done, v<var>2</var></samp>
+<samp><var>ALIAS</var>_KEY: <var>0123456789abcdef</var></samp>
+<samp><var>ALIAS</var>_SECRET: <var>0123456789abcdef</var></samp></pre>
+			<p>As long as the alias you used in the config variables matches a supported service, that&rsquo;s all you need to get started. If you&rsquo;d like to use a service not currently supported, please <a href="https://github.com/gulopine/foauth/issues">request it</a> or perhaps even <a href="https://github.com/gulopine/foauth/wiki/Adding_Providers">try writing it yourself</a>!</p>
+		</div>
+		{% endif %}
 	</div>
 </div>
 {% endblock %}

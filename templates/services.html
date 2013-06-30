@@ -10,7 +10,9 @@
 
 {% block content %}
 			<div class="content">
-				<p>{% if current_user.is_authenticated() %}You can authorize your services here, and if the service supports it, you can also specify which permissions you&rsquo;d like to authorize. We&rsquo;ll automatically refresh your authorization whenever we can, but not all services support this, so you might have to manually re-authorize services that expire. {% endif %}If you use a service that&rsquo;s not on this list, feel free to <a href="https://github.com/gulopine/foauth.org/issues">request it</a>.</p>
+				{% if current_user.is_authenticated() %}
+				<p>You can authorize your services here, and if the service supports it, you can also specify which permissions you&rsquo;d like to authorize. Authorizations will automatically refresh whenever possible, but not all services support this, so you might have to manually re-authorize services that expire.</p>
+				{% endif %}
 				{% if services %}
 				<div class="container services">
 					<div class="row">
@@ -108,4 +110,21 @@
 				</div>
 			</div>
 			{% endif %}
+            <h2>Add a{% if services %}nother{% endif %} service</h2>
+            <p>This is the rather tedious part. You&rsquo;ll need to follow several steps at the provider&rsquo;s site to obtain the necessary information.</p>
+            <p>First, find the service among the <a href="https://github.com/gulopine/foauth/blog/master/services">supported services</a> and make a note of its <code>alias</code> attribute, if there is one. If there&rsquo;s no <code>alias</code> attribute on the class, use the name of the class itself.</p>
+            <ul>
+                <li>Register for or login to the service.</li>
+                <li>Register an OAuth application, using their provided form.</li>
+                <li>When prompted for a callback URI, use <kbd>http{% if request.is_secure %}s{% endif %}://{{ request.host }}/services/<var>alias</var>/callback</kbd></li>
+                <li>Locate the application key (often called client ID for services using OAuth 2.0)</li>
+                <li>Locate the application secret</li>
+            </ul>
+            <p>Using the service&rsquo;s alias and the key and secret you got from the provider, configure Heroku with the <code><var>ALIAS</var>_KEY</code> and <code><var>ALIAS</var>_SECRET</code> variables.</p>
+            <pre>
+$ <kbd>heroku config:add <var>ALIAS</var>_KEY=<var>0123456789abcdef</var> <var>ALIAS</var>_SECRET=<var>0123456789abcdef</var></kbd>
+<samp>Setting config vars and restarting <var>random-string-1234</var>... done, v<var>2</var></samp>
+<samp><var>ALIAS</var>_KEY: <var>0123456789abcdef</var></samp>
+<samp><var>ALIAS</var>_SECRET: <var>0123456789abcdef</var></samp></pre>
+            <p>As long as the alias you used in the config variables matches a supported service, that&rsquo;s all you need to get started. If you&rsquo;d like to use a service not currently supported, please <a href="https://github.com/gulopine/foauth/issues">request it</a> or perhaps even <a href="https://github.com/gulopine/foauth/wiki/Adding_Providers">try writing it yourself</a>!</p>
 {% endblock %}

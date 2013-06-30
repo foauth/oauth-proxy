@@ -27,6 +27,10 @@ ul {
 	margin-bottom: 9px;
 }
 
+kbd {
+	font-weight: bold;
+}
+
 abbr {
 	border-bottom: 1px dotted #303030;
 }
