@@ -2,12 +2,10 @@
 
 {% block content %}
 <div class="content">
-	<div class="page-header">
-		<h1>foauth.org: OAuth for one</h1>
-	</div>
 	<div class="row">
-		<div class="span16">
-			<p><a href="http://oauth.net/">OAuth</a> is a great idea for interaction between big sites with lots of users. But, as one of those users, it&rsquo;s a pretty terrible way to get at your own data. That&rsquo;s where foauth.org comes in, giving you access to these services in three easy steps:</p>
+		<div class="span12">
+			<p>Welcome to your private OAuth proxy. The following steps will help get you up and running.</p>
+		</div>
 		</div>
 	</div>
 	<ol class="row">
@@ -40,17 +38,6 @@
 				</tr>
 			</table>
 			{% endif %}
-		</li>
-		<li class="span16">
-			<h2>Access your own data</h2>
-			<p>Write your own programs to access your data, using HTTP Basic authen&shy;tication, which is much easier to deal with. Most program&shy;ming languages have built-in support for it, and we don&rsquo;t even care which one you use. Sure, <a href="{{ url_for('about') }}">we love Python</a>, but it&rsquo;s okay if you don&rsquo;t.</p>
-			<pre>>>> import <a href="https://github.com/kennethreitz/requests">requests</a>
->>> auth = 'email@example.com', 'password'
->>> data = {'status': "Just signed up with https://foauth.org/ and it's awesome! Thanks <a href="https://twitter.com/gulopine">@Gulopine</a>!"}
->>> requests.post('http{% if request.is_secure %}s{% endif %}://{{ request.host }}/<a href="https://dev.twitter.com/docs/api/1.1/post/statuses/update">api.twitter.com/1.1/statuses/update.json</a>', data=data, auth=auth)
->>> r = requests.get('http{% if request.is_secure %}s{% endif %}://{{ request.host }}/<a href="https://dev.twitter.com/docs/api/1.1/get/statuses/user_timeline">api.twitter.com/1.1/statuses/user_timeline.json</a>', auth=auth)
->>> r.json()[0]['text']
-"Just signed up with https://foauth.org/ and it's awesome! Thanks <a href="https://twitter.com/gulopine">@Gulopine</a>!"</pre>
 		</li>
 	</ol>
 </div>

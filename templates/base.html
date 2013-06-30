@@ -1,5 +1,4 @@
 {% macro nav(section) %}
-    <a class="brand" href="{{ url_for('index') }}"><span class="fo">fo</span>auth.org</a>
     <ul class="nav">
         <li{% if section == 'index' %} class="active"{% endif %}><a href="/">Home</a></li>
         <li{% if section == 'services' %} class="active"{% endif %}><a href="/services/">Services</a></li>
@@ -10,10 +9,7 @@
         <li><a href="{{ url_for('logout') }}">Log out</a></li>
         {% else %}
         <li{% if section == 'login' %} class="active"{% endif %}>
-            <a href="{{ url_for('login') }}">
-                <img src="{{ url_for('static', filename='key.png') }}">
-                Log in
-            </a>
+            <a href="{{ url_for('login') }}">Log in</a>
         </li>
         {% endif %}
     </ul></div>
@@ -23,10 +19,9 @@
 <html>
 	<head>
 {% block head %}
-		<title>foauth.org: OAuth for one</title>
+		<title>OAuth proxy</title>
 		<link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
 		<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-		<link rel="sortcut icon" href="{{ url_for('static', filename='favicon.png') }}">
 {% endblock %}
 	</head>
 	<body>

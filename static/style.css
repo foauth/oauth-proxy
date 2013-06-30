@@ -1,71 +1,3 @@
-@font-face {
-    font-family: 'TitilliumText22LRegular';
-    src: url('titillium/TitilliumText22L003-webfont.eot');
-    src: url('titillium/TitilliumText22L003-webfont.eot?#iefix') format('embedded-opentype'),
-         url('titillium/TitilliumText22L003-webfont.woff') format('woff'),
-         url('titillium/TitilliumText22L003-webfont.ttf') format('truetype'),
-         url('titillium/TitilliumText22L003-webfont.svg#TitilliumText22LRegular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-
-}
-
-@font-face {
-    font-family: 'YanoneKaffeesatzLight';
-    src: url('kaffeesatz/YanoneKaffeesatz-Light-webfont.eot');
-    src: url('kaffeesatz/YanoneKaffeesatz-Light-webfont.eot?#iefix') format('embedded-opentype'),
-         url('kaffeesatz/YanoneKaffeesatz-Light-webfont.woff') format('woff'),
-         url('kaffeesatz/YanoneKaffeesatz-Light-webfont.ttf') format('truetype'),
-         url('kaffeesatz/YanoneKaffeesatz-Light-webfont.svg#YanoneKaffeesatzLight') format('svg');
-    font-weight: normal;
-    font-style: normal;
-
-}
-
-@font-face {
-    font-family: 'YanoneKaffeesatzBold';
-    src: url('kaffeesatz/YanoneKaffeesatz-Bold-webfont.eot');
-    src: url('kaffeesatz/YanoneKaffeesatz-Bold-webfont.eot?#iefix') format('embedded-opentype'),
-         url('kaffeesatz/YanoneKaffeesatz-Bold-webfont.woff') format('woff'),
-         url('kaffeesatz/YanoneKaffeesatz-Bold-webfont.ttf') format('truetype'),
-         url('kaffeesatz/YanoneKaffeesatz-Bold-webfont.svg#YanoneKaffeesatzBold') format('svg');
-    font-weight: normal;
-    font-style: normal;
-
-}
-
-@font-face {
-    font-family: 'LektonRegular';
-    src: url('lekton/Lekton-Regular-webfont.eot');
-    src: url('lekton/Lekton-Regular-webfont.eot?#iefix') format('embedded-opentype'),
-         url('lekton/Lekton-Regular-webfont.woff') format('woff'),
-         url('lekton/Lekton-Regular-webfont.ttf') format('truetype'),
-         url('lekton/Lekton-Regular-webfont.svg#LektonRegular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-
-body, p, th, td, input, button, li, dl dt, dl dd, label,
-.topbar, .topbar input, .topbar li {
-	font-family: 'TitilliumText22LRegular';
-	font-size: 12pt;
-	line-height: 1.5;
-}
-
-::-webkit-input-placeholder {
-	font-family: 'TitilliumText22LRegular';
-}
-
-input:-moz-placeholder {
-	font-family: 'TitilliumText22LRegular';
-}
-
-pre, code {
-	font-family: 'LektonRegular';
-	font-size: 12pt;
-	line-height: 1.25;
-}
-
 body {
 	padding-top: 50px;
 	margin: 0 auto;
@@ -77,22 +9,6 @@ dl dd {
 
 .info-list dt {
 	font-weight: normal;
-}
-
-.topbar .brand {
-	font-family: 'YanoneKaffeesatzBold';
-	font-size: 150%;
-	line-height: .75;
-	letter-spacing: 1px;
-	margin-top: 2px;
-}
-
-.brand .fo {
-	color: orange;
-}
-
-h1, h2, h3 {
-	font-family: 'YanoneKaffeesatzLight';
 }
 
 h1 {
@@ -140,10 +56,6 @@ abbr {
 	background: left 11px no-repeat;
 }
 
-.authorized th h3 {
-	background-image: url('bullet_green.png');
-}
-
 .expires {
 	font-weight: normal;
 }
@@ -152,17 +64,8 @@ abbr {
 	color: #E00040;
 }
 
-.expired th h3,
-.error th h3 {
-	background-image: url('bullet_red.png');
-}
-
 .expiring .expires {
 	color: #E09000;
-}
-
-.expiring th h3 {
-	background-image: url('bullet_yellow.png');
 }
 
 .steps li {
