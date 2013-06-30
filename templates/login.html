@@ -8,22 +8,24 @@
         <h1>Log in</h1>
     </div>
     <div class="row">
-        <div class="span8">
+        <div class="offset3 span6">
             <form action="{{ url_for('login') }}" method="post" class="row">
                 {{ form.csrf_token }}
-                <p class="span8">
+                <p>
                     {% if form.errors.email %}
                     <strong class="error">{{ form.errors.email.0|safe }}</strong>
                     {% endif %}
-                    <input class="span8" type="email" id="login_email" name="email" {% if form.data.email %}value="{{ form.data.email }}"{% endif %} placeholder="{{ form.email.label.text }}">
+                    <input class="span6" type="email" id="login_email" name="email" {% if form.data.email %}value="{{ form.data.email }}"{% endif %} placeholder="{{ form.email.label.text }}">
                 </p>
-                <p class="span8">
+                <p>
                     {% if form.errors.password %}
                     <strong class="error">{{ form.errors.password.0|safe }}</strong>
                     {% endif %}
-                    <input class="span8" type="password" id="login_password" name="password" placeholder="{{ form.password.label.text }}">
+                    <input class="span6" type="password" id="login_password" name="password" placeholder="{{ form.password.label.text }}">
                 </p>
-                <button type="submit" class="span8 btn primary">Log in</button>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Log in</button>
+                </div>
             </form>
         </div>
         <div class="span8">

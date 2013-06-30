@@ -13,8 +13,8 @@
 				<p>{% if current_user.is_authenticated() %}You can authorize your services here, and if the service supports it, you can also specify which permissions you&rsquo;d like to authorize. We&rsquo;ll automatically refresh your authorization whenever we can, but not all services support this, so you might have to manually re-authorize services that expire. {% endif %}If you use a service that&rsquo;s not on this list, feel free to <a href="https://github.com/gulopine/foauth.org/issues">request it</a>.</p>
 				<div class="container services">
 					<div class="row">
-						<div class="span16">
-							<table>
+						<div class="span12">
+							<table class="table">
 {% for category, services in services|groupby('category') %}
 {% for service in services|sort(attribute='name') %}
 {% if current_user.is_authenticated() %}
@@ -88,13 +88,13 @@
 			<p>{{ service.disclaimer }}</p>
 			{% endif %}
 		</div>
-		<div class="modal-footer">
-			<a href="{{ service.provider_url }}">Visit {{ service.name }}</a>
-			<a href="{{ service.docs_url }}">API Documentation</a>
 		{% if current_user.is_authenticated() %}
-			<button type="submit" class="btn primary authorize">{{ title }}</button>
+			<div class="modal-footer">
+				<a href="{{ service.provider_url }}">Visit {{ service.name }}</a>
+				<a href="{{ service.docs_url }}">API Documentation</a>
+				<button type="submit" class="btn btn-primary authorize">{{ title }}</button>
+			</div>
 		{% endif %}
-		</div>
 	</div>
 </form>
 									</td>

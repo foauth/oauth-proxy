@@ -1,6 +1,5 @@
 body {
-	padding-top: 50px;
-	margin: 0 auto;
+	margin: 20px auto;
 }
 
 dl dd {
@@ -247,52 +246,3 @@ p.footer .g {
 .container {
 	position: relative;
 }
-
-ul.flashes {
-	list-style: none;
-	margin-top: -.7em;
-	margin-left: 0;
-	text-align: center;
-	position: absolute;
-	left: -1px;
-}
-
-ul.flashes li {
-	padding: .25em 0;
-	color: white;
-	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-	background-color: #faa732;
-	background-image: -khtml-gradient(linear, left top, left bottom, from(#fbb450), to(#f89406));
-	background-image: -moz-linear-gradient(top, #fbb450, #f89406);
-	background-image: -ms-linear-gradient(top, #fbb450, #f89406);
-	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fbb450), color-stop(100%, #f89406));
-	background-image: -webkit-linear-gradient(top, #fbb450, #f89406);
-	background-image: -o-linear-gradient(top, #fbb450, #f89406);
-	background-image: linear-gradient(top, #fbb450, #f89406);
-	-webkit-border-radius: 0 0 1em 1em;
-	-moz-border-radius: 0 0 1em 1em;
-	border-radius: 0 0 1em 1em;
-}
-
-ul.flashes .error {
-	background-color: #c43c35;
-	background-image: -khtml-gradient(linear, left top, left bottom, from(#ee5f5b), to(#c43c35));
-	background-image: -moz-linear-gradient(top, #ee5f5b, #c43c35);
-	background-image: -ms-linear-gradient(top, #ee5f5b, #c43c35);
-	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ee5f5b), color-stop(100%, #c43c35));
-	background-image: -webkit-linear-gradient(top, #ee5f5b, #c43c35);
-	background-image: -o-linear-gradient(top, #ee5f5b, #c43c35);
-	background-image: linear-gradient(top, #ee5f5b, #c43c35);
-}
-
-ul.flashes .success {
-	background-color: #5bb75b;
-	background-image: -khtml-gradient(linear, left top, left bottom, from(#62c462), to(#51a351));
-	background-image: -moz-linear-gradient(top, #62c462, #51a351);
-	background-image: -ms-linear-gradient(top, #62c462, #51a351);
-	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #62c462), color-stop(100%, #51a351));
-	background-image: -webkit-linear-gradient(top, #62c462, #51a351);
-	background-image: -o-linear-gradient(top, #62c462, #51a351);
-	background-image: linear-gradient(top, #62c462, #51a351);
-}
-
