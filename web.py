@@ -35,11 +35,20 @@ def forbidden(e):
 
 @config.app.route('/', methods=['GET'])
 def index():
+    try:
+        user_count = models.User.query.count()
+    except:
+        # Normally a bare except would be a bad idea, but in this case it makes
+        # sense because any problem obtaining the number of users is equivalent
+        # to having no users, and we need to recover gracefully in the event
+        # that the database hasn't yet been configured.
+        user_count = 0
+
     return render_template('index.html',
         env=os.environ,
         custom_domain=re.match('[a-z]+-[a-z]+-[0-9]+\.herokuapp\.com', request.host),
         service_count=len(config.services),
-        user_count=models.User.query.count() if os.environ.get('DATABASE_URL') else 0,
+        user_count=user_count,
     )
 
 
