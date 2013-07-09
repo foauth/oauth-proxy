@@ -16,6 +16,10 @@ app.wsgi_app = ProxyFix(app.wsgi_app)
 SSLify(app, subdomains=True)
 
 app.requests_session = requests.Session()
+if 'RUNSCOPE_BUCKET_KEY' in os.environ:
+    runscope_adapter = RunscopeAdapter(os.environ['RUNSCOPE_BUCKET_KEY'])
+    app.requests_session.mount('http://', runscope_adapter)
+    app.requests_session.mount('https://', runscope_adapter)
 
 
 def get_service_modules():
