@@ -39,10 +39,10 @@ class Launchpad(foauth.providers.OAuth1):
     def get_request_token_response(self, redirect_uri, scopes):
         # Launchpad expects the signature in the body, but we don't have
         # additional parameters, so oauthlib doesn't help us here.
-        return requests.post(self.get_request_token_url(),
-                             data={'oauth_consumer_key': self.client_id,
-                                   'oauth_signature_method': 'PLAINTEXT',
-                                   'oauth_signature': '&'})
+        return self.session.post(self.get_request_token_url(),
+                                 data={'oauth_consumer_key': self.client_id,
+                                       'oauth_signature_method': 'PLAINTEXT',
+                                       'oauth_signature': '&'})
 
     def get_access_token_response(self, token, secret, verifier=None):
         # Launchpad expects the signature in the body, but we don't have
@@ -53,11 +53,11 @@ class Launchpad(foauth.providers.OAuth1):
                                      'oauth_signature_method': 'PLAINTEXT',
                                      'oauth_signature': '&%s' % secret})
         req = req.prepare()
-        return requests.post(self.get_access_token_url(),
-                             data={'oauth_consumer_key': self.client_id,
-                                   'oauth_token': token,
-                                   'oauth_signature_method': 'PLAINTEXT',
-                                   'oauth_signature': '&%s' % secret})
+        return self.session.post(self.get_access_token_url(),
+                                data={'oauth_consumer_key': self.client_id,
+                                      'oauth_token': token,
+                                      'oauth_signature_method': 'PLAINTEXT',
+                                      'oauth_signature': '&%s' % secret})
 
     def get_user_id(self, key):
         r = super(Launchpad, self).api(key, self.api_domains[0], '/1.0/people/+me')

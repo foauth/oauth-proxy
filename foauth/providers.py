@@ -10,6 +10,7 @@ from oauthlib.oauth1.rfc5849 import SIGNATURE_HMAC, SIGNATURE_TYPE_AUTH_HEADER
 from oauthlib.oauth2.draft25 import tokens
 from werkzeug.urls import url_decode
 
+import config
 from foauth import OAuthError
 
 BEARER = 'BEARER'
@@ -72,6 +73,7 @@ class OAuth(object):
     def __init__(self, client_id, client_secret):
         self.client_id = client_id
         self.client_secret = client_secret
+        self.session = config.app.requests_session
 
     def get_request_token_url(self):
         return self.request_token_url
@@ -136,9 +138,9 @@ class OAuth1(OAuth):
                              callback_uri=redirect_uri,
                              signature_method=self.signature_method,
                              signature_type=self.signature_type)
-        return requests.post(self.get_request_token_url(), auth=auth,
-                             params=self.get_request_token_params(redirect_uri, scopes),
-                             verify=self.verify)
+        return self.session.post(self.get_request_token_url(), auth=auth,
+                                 params=self.get_request_token_params(redirect_uri, scopes),
+                                 verify=self.verify)
 
     def get_authorize_params(self, redirect_uri, scopes):
         resp = self.get_request_token_response(redirect_uri, scopes)
@@ -162,8 +164,8 @@ class OAuth1(OAuth):
                              verifier=verifier,
                              signature_method=self.signature_method,
                              signature_type=self.signature_type)
-        return requests.post(self.get_access_token_url(), auth=auth,
-                             verify=self.verify)
+        return self.session.post(self.get_access_token_url(),auth=auth,
+                                 verify=self.verify)
 
     def callback(self, data, url_name):
         token = data['oauth_token']
@@ -186,9 +188,9 @@ class OAuth1(OAuth):
                              resource_owner_secret=key.secret,
                              signature_method=self.signature_method,
                              signature_type=self.signature_type)
-        return requests.request(method, url, auth=auth, params=params or {},
-                                data=data or {}, headers=headers or {},
-                                verify=self.verify, stream=True)
+        return self.session.request(method, url, auth=auth, params=params or {},
+                                    data=data or {}, headers=headers or {},
+                                    verify=self.verify, stream=True)
 
 
 class OAuth2(OAuth):
@@ -219,12 +221,12 @@ class OAuth2(OAuth):
         return params
 
     def get_access_token_response(self, redirect_uri, data):
-        return requests.post(self.get_access_token_url(), {
+        return self.session.post(self.get_access_token_url(), {
             'client_id': self.client_id,
             'client_secret': self.client_secret,
             'grant_type': 'authorization_code',
             'code': data['code'],
-            'redirect_uri': redirect_uri
+            'redirect_uri': redirect_uri,
         }, verify=self.verify, auth=self.auth)
 
     def callback(self, data, url_name):
@@ -240,11 +242,11 @@ class OAuth2(OAuth):
         return self.parse_token(resp.content)
 
     def refresh_token(self, token):
-        resp = requests.post(self.get_access_token_url(), {
+        resp = self.sessions.post(self.get_access_token_url(), {
             'client_id': self.client_id,
             'client_secret': self.client_secret,
             'grant_type': 'refresh_token',
-            'refresh_token': token
+            'refresh_token': token,
         }, verify=self.verify, auth=self.auth)
 
         return self.parse_token(resp.content)
@@ -255,6 +257,6 @@ class OAuth2(OAuth):
         url = '%s://%s%s' % (protocol, domain, path)
         if self.token_type == BEARER:
             auth = Bearer(key.access_token, bearer_type=self.bearer_type)
-        return requests.request(method, url, auth=auth, params=params or {},
-                                data=data or {}, headers=headers or {},
-                                verify=self.verify, stream=True)
+        return self.session.request(method, url, auth=auth, params=params or {},
+                                    data=data or {}, headers=headers or {},
+                                    verify=self.verify, stream=True)

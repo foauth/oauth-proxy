@@ -52,7 +52,7 @@ class RememberTheMilk(foauth.providers.OAuth2):
             'frob': data['frob'],
         }
         params['api_sig'] = auth.get_signature(params.items())
-        resp = requests.get(self.get_access_token_url(), params=params)
+        resp = self.session.get(self.get_access_token_url(), params=params)
 
         return self.parse_token(resp.content)
 
@@ -66,8 +66,8 @@ class RememberTheMilk(foauth.providers.OAuth2):
             headers=None):
         url = 'http://%s%s' % (domain, path)
         auth = Auth(self.client_id, self.client_secret, key.access_token)
-        return requests.request(method, url, auth=auth, params=params or {},
-                                data=data or {}, headers=headers or {})
+        return self.session.request(method, url, auth=auth, params=params or {},
+                                    data=data or {}, headers=headers or {})
 
     def get_user_id(self, key):
         r = self.api(key, self.api_domain, u'/services/rest/?method=rtm.auth.checkToken')

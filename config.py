@@ -3,6 +3,8 @@ import os
 from flask import Flask
 from werkzeug.contrib.fixers import ProxyFix
 from flask_sslify import SSLify
+import requests
+from requests_runscope import RunscopeAdapter
 
 from foauth.providers import OAuthMeta
 
@@ -12,6 +14,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 app.config['DEBUG'] = 'DEBUG' in os.environ
 app.wsgi_app = ProxyFix(app.wsgi_app)
 SSLify(app, subdomains=True)
+
+app.requests_session = requests.Session()
 
 
 def get_service_modules():

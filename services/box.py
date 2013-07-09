@@ -1,5 +1,4 @@
 import flask
-import requests
 import urllib
 from xml.dom import minidom
 
@@ -28,7 +27,9 @@ class Box(foauth.providers.OAuth1):
             'action': 'get_ticket',
             'api_key': self.client_id,
         }
-        resp = requests.post(self.get_request_token_url(), params=params)
+        resp = self.session.post(
+            self.get_request_token_url(),
+            params=params)
         dom = minidom.parseString(resp.content)
         return dom.getElementsByTagName('ticket')[0].firstChild.nodeValue
 
@@ -47,7 +48,7 @@ class Box(foauth.providers.OAuth1):
             'ticket': data['ticket'],
             'token': data['auth_token'],
         }
-        resp = requests.get(self.get_access_token_url(), params=params)
+        resp = self.session.get(self.get_access_token_url(), params=params)
 
         return self.parse_token(resp.content)
 
@@ -55,8 +56,8 @@ class Box(foauth.providers.OAuth1):
             headers=None):
         url = 'https://%s%s' % (domain, path)
         auth = Auth(self.client_id, key.access_token)
-        return requests.request(method, url, auth=auth, params=params or {},
-                                data=data or {}, headers=dict(headers or {}))
+        return self.session.request(method, url, auth=auth, params=params or {},
+                                    data=data or {}, headers=dict(headers or {}))
 
     def get_user_id(self, key):
         r = self.api(key, self.api_domains[0], u'/2.0/folders/0')

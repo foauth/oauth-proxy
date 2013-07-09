@@ -1,5 +1,3 @@
-import requests
-
 import foauth.providers
 
 
@@ -21,7 +19,7 @@ class FamilySearch(foauth.providers.OAuth2):
     def get_access_token_response(self, redirect_uri, data):
         # Sending the (basically empty) client secret will fail,
         # so this must send its own custom request.
-        return requests.post(self.get_access_token_url(), {
+        return self.session.post(self.get_access_token_url(), {
             'client_id': self.client_id,
             'grant_type': 'authorization_code',
             'code': data['code'],

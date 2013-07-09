@@ -1,5 +1,4 @@
 from werkzeug.urls import url_decode
-import requests
 import foauth.providers
 
 
@@ -22,7 +21,7 @@ class Pocket(foauth.providers.OAuth2):
 
     def get_authorize_params(self, redirect_uri, scopes):
         params = super(Pocket, self).get_authorize_params(redirect_uri, scopes)
-        r = requests.post(self.request_token_url, data={
+        r = self.session.post(self.request_token_url, data={
                 'consumer_key': params['client_id'],
                 'redirect_uri': redirect_uri,
             })
@@ -34,7 +33,7 @@ class Pocket(foauth.providers.OAuth2):
         }
 
     def get_access_token_response(self, redirect_uri, data):
-        return requests.post(self.get_access_token_url(), {
+        return self.session.post(self.get_access_token_url(), {
             'consumer_key': self.client_id,
             'code': data['code'],
             'redirect_uri': redirect_uri

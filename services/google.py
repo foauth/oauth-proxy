@@ -6,6 +6,7 @@ class Google(foauth.providers.OAuth2):
     provider_url = 'http://google.com/'
     docs_url = 'http://code.google.com/more/'
     category = 'Productivity'
+    disclaimer = "If you're re-authorizing Google, you may notice that it will no longer refresh automatically. To fix this, visit Google and delete your authorization there, then try again here."
 
     # URLs to interact with the API
     authorize_url = 'https://accounts.google.com/o/oauth2/auth'
@@ -64,6 +65,12 @@ class Google(foauth.providers.OAuth2):
         params = super(Google, self).get_authorize_params(redirect_uri, scopes)
         params['access_type'] = 'offline'
         return params
+
+    def parse_token(self, content):
+        print content
+        token = super(Google, self).parse_token(content)
+        print token
+        return token
 
     def get_user_id(self, key):
         r = self.api(key, self.api_domains[0], u'/oauth2/v2/userinfo')
